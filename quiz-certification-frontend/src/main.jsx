@@ -15,10 +15,13 @@ import { BrowserRouter } from 'react-router-dom';
 import './index.css';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { AuthProvider } from './context/AuthContext.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <BrowserRouter>
-    <App />
+    <AuthProvider>
+      <App />
+    </AuthProvider>
     <ToastContainer position="top-center" autoClose={3000} />
   </BrowserRouter>
 );

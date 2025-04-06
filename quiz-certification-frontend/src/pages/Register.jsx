@@ -1,7 +1,10 @@
 import React, { useState } from "react";
-import { toast } from 'react-toastify'
+import { toast } from 'react-toastify';
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
+  const navigate = useNavigate(); // ✅ This was missing!
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -14,12 +17,15 @@ const Register = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Register Data:", formData);
 
     if (!formData.name || !formData.email || !formData.password) {
-      toast.warning("All fields are required")
+      toast.warning("All fields are required");
     } else {
-      toast.success("Registered successfully!")
+      toast.success("Registered successfully!");
+
+      setTimeout(() => {
+        navigate("/login"); // ✅ Now this will work
+      }, 1000);
     }
 
     // Later: Send formData to backend API for registration
@@ -43,7 +49,6 @@ const Register = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="Enter your name"
-        
             />
           </div>
           <div>
@@ -57,7 +62,6 @@ const Register = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="Enter your email"
-        
             />
           </div>
           <div>
@@ -71,7 +75,6 @@ const Register = () => {
               onChange={handleChange}
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-indigo-500"
               placeholder="Create a password"
-              
             />
           </div>
           <button

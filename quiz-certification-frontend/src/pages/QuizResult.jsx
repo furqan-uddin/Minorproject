@@ -1,27 +1,21 @@
 import React from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { Button } from "../components/ui/button"; // or ../../components/ui/button if needed
-
+import { useLocation, useNavigate, Navigate } from "react-router-dom";
+import { Button } from "../components/ui/button"; // Adjust path if needed
 
 const QuizResult = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const { totalQuestions, correctAnswers, category } = location.state || {};
 
-  if (totalQuestions === undefined || correctAnswers === undefined) {
-    return (
-      <div className="text-center py-10">
-        <p className="text-xl">Invalid access. Please take a quiz first.</p>
-        <Button onClick={() => navigate("/")}>Go Home</Button>
-      </div>
-    );
+  // 🛡️ Guard: Prevent direct access to result page
+  if (!location.state || totalQuestions === undefined || correctAnswers === undefined) {
+    return <Navigate to="/" />;
   }
 
   const scorePercent = Math.round((correctAnswers / totalQuestions) * 100);
   const isPassed = scorePercent >= 50;
 
   const handleDownloadCertificate = () => {
-    // This is just a placeholder for now
     alert("🎉 Certificate Download feature coming soon!");
   };
 

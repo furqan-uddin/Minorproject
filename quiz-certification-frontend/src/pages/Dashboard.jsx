@@ -31,12 +31,13 @@ const Dashboard = () => {
             <p className="text-gray-700">{user.certificatesEarned}</p>
           </div>
           <div className="bg-indigo-100 p-6 rounded-xl shadow flex items-center justify-center">
-            <Link
-              to="/categories"
-              className="bg-purple-600 text-white px-6 py-3 rounded-full text-lg hover:bg-purple-700 transition"
-            >
-              Explore Categories
-            </Link>
+          <Link
+            to="/quizzes"
+            className="bg-purple-600 text-white px-6 py-3 rounded-full text-lg hover:bg-purple-700 transition"
+          >
+            Explore Categories
+          </Link>
+
           </div>
         </div>
       </div>
