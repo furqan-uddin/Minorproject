@@ -1,38 +1,71 @@
 import React from "react";
 
+const mockLeaderboard = [
+  {
+    name: "John Doe",
+    category: "Tech",
+    score: 9,
+    total: 10,
+  },
+  {
+    name: "Aisha Khan",
+    category: "Aptitude",
+    score: 8,
+    total: 10,
+  },
+  {
+    name: "Rahul Sharma",
+    category: "Fundamentals",
+    score: 7,
+    total: 10,
+  },
+  {
+    name: "Sneha Verma",
+    category: "Interview",
+    score: 6,
+    total: 10,
+  },
+];
+
 const Leaderboard = () => {
-  const dummyData = [
-    { name: "Alice", email: "alice@example.com", score: 95 },
-    { name: "Bob", email: "bob@example.com", score: 90 },
-    { name: "Charlie", email: "charlie@example.com", score: 85 },
-    { name: "David", email: "david@example.com", score: 82 },
-    { name: "Eva", email: "eva@example.com", score: 80 },
-  ];
+  const leaderboardData = [...mockLeaderboard].sort(
+    (a, b) => b.score - a.score
+  );
 
   return (
-    <div className="min-h-screen bg-gray-100 py-10 px-4">
-      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-md p-8">
-        <h2 className="text-3xl font-bold text-indigo-700 mb-6 text-center">
-          Leaderboard
+    <div className="min-h-screen bg-gradient-to-br from-purple-100 to-indigo-100 py-10 px-4">
+      <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
+        <h2 className="text-3xl font-bold text-center text-indigo-700 mb-8">
+          🏆 Leaderboard
         </h2>
+
         <div className="overflow-x-auto">
-          <table className="min-w-full table-auto border-collapse">
+          <table className="w-full border-collapse">
             <thead>
-              <tr className="bg-indigo-100 text-indigo-700">
-                <th className="px-6 py-3 text-left font-semibold">#</th>
-                <th className="px-6 py-3 text-left font-semibold">Name</th>
-                <th className="px-6 py-3 text-left font-semibold">Email</th>
-                <th className="px-6 py-3 text-left font-semibold">Score</th>
+              <tr className="bg-indigo-100 text-indigo-800">
+                <th className="p-3 text-left">Rank</th>
+                <th className="p-3 text-left">Name</th>
+                <th className="p-3 text-left">Category</th>
+                <th className="p-3 text-left">Score</th>
+                <th className="p-3 text-left">Percentage</th>
               </tr>
             </thead>
             <tbody>
-              {dummyData.map((user, index) => (
-                <tr key={index} className="hover:bg-gray-50 border-b">
-                  <td className="px-6 py-4">{index + 1}</td>
-                  <td className="px-6 py-4">{user.name}</td>
-                  <td className="px-6 py-4">{user.email}</td>
-                  <td className="px-6 py-4 font-medium text-indigo-600">
-                    {user.score}
+              {leaderboardData.map((user, index) => (
+                <tr
+                  key={index}
+                  className={`${
+                    index % 2 === 0 ? "bg-gray-50" : "bg-white"
+                  } hover:bg-indigo-50 transition`}
+                >
+                  <td className="p-3 font-semibold">{index + 1}</td>
+                  <td className="p-3">{user.name}</td>
+                  <td className="p-3">{user.category}</td>
+                  <td className="p-3">
+                    {user.score}/{user.total}
+                  </td>
+                  <td className="p-3">
+                    {Math.round((user.score / user.total) * 100)}%
                   </td>
                 </tr>
               ))}

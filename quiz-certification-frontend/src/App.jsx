@@ -23,6 +23,7 @@ import Dashboard from './pages/Dashboard';
 import Categories from './pages/Categories';
 import QuizPage from './pages/Quizpage';
 import Leaderboard from './pages/Leaderboard';
+import QuizResult from './pages/QuizResult';
 import { Routes, Route } from 'react-router-dom';
 
 const App = () => {
@@ -40,7 +41,7 @@ const App = () => {
         <Route path="/quizzes" element={<Categories />} />
         <Route path="/quizzes/:categoryId" element={<QuizPage />} />
         <Route path="/leaderboard" element={<Leaderboard />} />
-
+        <Route path="/quiz-result" element={<QuizResult />} />
       </Routes>
     </>
   );
