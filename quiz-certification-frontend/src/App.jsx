@@ -17,6 +17,8 @@
 import React from 'react';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import { Routes, Route } from 'react-router-dom';
 
 const App = () => {
@@ -26,8 +28,10 @@ const App = () => {
       <Routes>
         {/* <Route path="/" element={<h2 className="text-center mt-10 text-xl">Welcome to Quiz Certification System</h2>} /> */}
         <Route path="/" element={<Home />} />
-        <Route path="/login" element={<h2 className="text-center mt-10">Login Page</h2>} />
-        <Route path="/register" element={<h2 className="text-center mt-10">Register Page</h2>} />
+        {/* <Route path="/login" element={<h2 className="text-center mt-10">Login Page</h2>} /> */}
+        <Route path="/login" element={<Login />} />
+        {/* <Route path="/register" element={<h2 className="text-center mt-10">Register Page</h2>} /> */}
+        <Route path="/register" element={<Register />} />
         
       </Routes>
     </>
