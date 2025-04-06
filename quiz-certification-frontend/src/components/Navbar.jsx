@@ -1,15 +1,38 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React from "react";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   return (
-    <nav className="bg-blue-600 text-white p-4 shadow-md">
-      <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-xl font-bold">QuizZy</h1>
-        <div className="space-x-4">
-          <Link to="/" className="hover:text-gray-300">Home</Link>
-          <Link to="/login" className="hover:text-gray-300">Login</Link>
-          <Link to="/register" className="hover:text-gray-300">Register</Link>
+    <nav className="bg-white shadow-md py-4">
+      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+        <Link to="/" className="text-2xl font-bold text-indigo-700">
+          Quizify
+        </Link>
+        <div className="space-x-6">
+          <Link
+            to="/"
+            className="text-gray-700 hover:text-indigo-700 transition font-medium"
+          >
+            Home
+          </Link>
+          <Link
+            to="/quizzes"
+            className="text-gray-700 hover:text-indigo-700 transition font-medium"
+          >
+            Quizzes
+          </Link>
+          <Link
+            to="/login"
+            className="text-gray-700 hover:text-indigo-700 transition font-medium"
+          >
+            Login
+          </Link>
+          <Link
+            to="/register"
+            className="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition font-medium"
+          >
+            Sign Up
+          </Link>
         </div>
       </div>
     </nav>

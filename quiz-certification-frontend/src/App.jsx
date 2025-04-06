@@ -19,6 +19,7 @@ import Navbar from './components/Navbar';
 import Home from './pages/Home';
 import Login from './pages/Login';
 import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
 import { Routes, Route } from 'react-router-dom';
 
 const App = () => {
@@ -32,6 +33,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         {/* <Route path="/register" element={<h2 className="text-center mt-10">Register Page</h2>} /> */}
         <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         
       </Routes>
     </>
