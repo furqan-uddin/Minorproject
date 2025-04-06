@@ -22,6 +22,16 @@ const categories = [
     title: "Science",
     description: "Dive into physics, chemistry, biology quizzes.",
   },
+  {
+    id: "cs-fundamentals",
+    title: "Computer Science Fundamentals",
+    description: "Quizzes on DBMS, OS, CN, DSA, and core CS concepts.",
+  },
+  {
+    id: "interview-prep",
+    title: "Interview Preparation",
+    description: "Practice HR and technical questions for placements.",
+  },
 ];
 
 const Categories = () => {

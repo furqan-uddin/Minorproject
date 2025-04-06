@@ -1,65 +1,50 @@
-import React from "react";
-import { Link } from "react-router-dom";
+// import { useState } from 'react'
+// import reactLogo from './assets/react.svg'
+// import viteLogo from '/vite.svg'
+// import './App.css'
 
-const categories = [
-  {
-    id: "tech",
-    title: "Tech",
-    description: "Explore quizzes on programming, web dev, and more.",
-  },
-  {
-    id: "aptitude",
-    title: "Aptitude",
-    description: "Test your logical, verbal, and numerical reasoning.",
-  },
-  {
-    id: "gk",
-    title: "General Knowledge",
-    description: "Stay updated with current affairs and world knowledge.",
-  },
-  {
-    id: "science",
-    title: "Science",
-    description: "Dive into physics, chemistry, biology quizzes.",
-  },
-  {
-    id: "cs-fundamentals",
-    title: "Computer Science Fundamentals",
-    description: "Quizzes on DBMS, OS, CN, DSA, and core CS concepts.",
-  },
-  {
-    id: "interview-prep",
-    title: "Interview Preparation",
-    description: "Practice HR and technical questions for placements.",
-  },
-];
+// function App() {
+//   const [count, setCount] = useState(0)
 
-const Categories = () => {
+//   return (
+//     <h1 className="text-3xl font-bold underline bg-green-900">
+//       Hello world!
+//     </h1>
+//   )
+// }
+
+// export default App
+import React from 'react';
+import Navbar from './components/Navbar';
+import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
+import Dashboard from './pages/Dashboard';
+import Categories from './pages/Categories';
+import QuizPage from './pages/Quizpage';
+import Leaderboard from './pages/Leaderboard';
+import { Routes, Route } from 'react-router-dom';
+
+const App = () => {
   return (
-    <div className="min-h-screen bg-gray-100 py-12 px-4">
-      <h2 className="text-3xl font-bold text-indigo-700 text-center mb-10">
-        Choose a Quiz Category
-      </h2>
-      <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {categories.map((category) => (
-          <div
-            key={category.id}
-            className="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition"
-          >
-            <h3 className="text-xl font-semibold text-indigo-700 mb-2">
-              {category.title}
-            </h3>
-            <p className="text-gray-700 mb-4">{category.description}</p>
-            <Link to={`/quizzes/${category.id}`}>
-              <button className="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition">
-                Start Quiz
-              </button>
-            </Link>
-          </div>
-        ))}
-      </div>
-    </div>
+    <>
+      <Navbar />
+      <Routes>
+        {/* <Route path="/" element={<h2 className="text-center mt-10 text-xl">Welcome to Quiz Certification System</h2>} /> */}
+        <Route path="/" element={<Home />} />
+        {/* <Route path="/login" element={<h2 className="text-center mt-10">Login Page</h2>} /> */}
+        <Route path="/login" element={<Login />} />
+        {/* <Route path="/register" element={<h2 className="text-center mt-10">Register Page</h2>} /> */}
+        <Route path="/register" element={<Register />} />
+        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/quizzes" element={<Categories />} />
+        <Route path="/quizzes/:categoryId" element={<QuizPage />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
+
+      </Routes>
+    </>
   );
 };
 
-export default Categories;
+export default App;
+

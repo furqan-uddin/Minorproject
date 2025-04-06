@@ -21,6 +21,9 @@ const Navbar = () => {
           >
             Quizzes
           </Link>
+          <Link to="/leaderboard" className="text-gray-700 hover:text-indigo-700 transition font-medium">
+            Leaderboard
+          </Link>
           <Link
             to="/dashboard"
             className="text-gray-700 hover:text-indigo-700 transition font-medium"
