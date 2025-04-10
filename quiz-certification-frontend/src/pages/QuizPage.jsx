@@ -24,7 +24,7 @@ const sampleQuestions = {
     {
       question: "If A = 1, B = 2, ..., Z = 26, what is the value of DOG?",
       options: ["26", "19", "27", "48"],
-      answer: "48",
+      answer: "26",
     },
   ],
   fundamentals: [

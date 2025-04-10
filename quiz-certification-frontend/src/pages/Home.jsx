@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import illustration from  "../assets/img.png";
 
 const Home = () => {
   return (
@@ -24,7 +25,7 @@ const Home = () => {
 
         <div className="lg:w-1/2">
           <img
-            src="https://storyset.com/images/education.svg"
+            src={illustration}
             alt="Quiz Illustration"
             className="w-full max-w-md mx-auto"
           />

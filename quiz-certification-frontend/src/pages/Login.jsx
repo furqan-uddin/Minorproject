@@ -23,7 +23,7 @@ const Login = () => {
     // Simulate login (later replace with real API call)
     login({ email: formData.email }); // store dummy user in context
     toast.success("Logged in successfully!");
-    navigate("/dashboard");
+    navigate("/");
   };
 
   return (
