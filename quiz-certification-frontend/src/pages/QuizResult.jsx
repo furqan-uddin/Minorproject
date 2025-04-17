@@ -1,3 +1,4 @@
+//quiz-certification-frontend/src/QuizResult.jsx
 import React from "react";
 import { useLocation, useNavigate, Navigate } from "react-router-dom";
 import { Button } from "../components/ui/button"; 

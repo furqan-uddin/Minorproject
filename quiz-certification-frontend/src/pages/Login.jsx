@@ -1,4 +1,5 @@
- import React, { useState } from "react";
+//quiz-certification-frontend/src/pages/Login.jsx
+import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
@@ -12,16 +13,18 @@ const Login = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (formData.email === "" || formData.password === "") {
+      console.log("LOGIN ERROR:", err.response);
       toast.error("Please fill in all fields");
       return;
     }
 
     // Simulate login (later replace with real API call)
-    login({ email: formData.email }); // store dummy user in context
+    // login({ email: formData.email }); // store dummy user in context
+    await login(formData);
     toast.success("Logged in successfully!");
     navigate("/");
   };

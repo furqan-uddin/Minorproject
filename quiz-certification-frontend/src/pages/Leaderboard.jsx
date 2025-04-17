@@ -1,36 +1,22 @@
-import React from "react";
-
-const mockLeaderboard = [
-  {
-    name: "John Doe",
-    category: "Tech",
-    score: 9,
-    total: 10,
-  },
-  {
-    name: "Aisha Khan",
-    category: "Aptitude",
-    score: 8,
-    total: 10,
-  },
-  {
-    name: "Rahul Sharma",
-    category: "Fundamentals",
-    score: 7,
-    total: 10,
-  },
-  {
-    name: "Sneha Verma",
-    category: "Interview",
-    score: 6,
-    total: 10,
-  },
-];
+// //quiz-certification-frontend/src/pages/Leaderboard.jsx
+import React, { useEffect, useState } from "react";
+import API from "../api";
 
 const Leaderboard = () => {
-  const leaderboardData = [...mockLeaderboard].sort(
-    (a, b) => b.score - a.score
-  );
+  const [leaderboard, setLeaderboard] = useState([]);
+
+  useEffect(() => {
+    const fetchLeaderboard = async () => {
+      try {
+        const { data } = await API.get('/results/leaderboard');
+        setLeaderboard(data);
+      } catch (err) {
+        console.error('Error loading leaderboard:', err);
+      }
+    };
+
+    fetchLeaderboard();
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 to-indigo-100 py-10 px-4">
@@ -51,7 +37,7 @@ const Leaderboard = () => {
               </tr>
             </thead>
             <tbody>
-              {leaderboardData.map((user, index) => (
+              {leaderboard.map((user, index) => (
                 <tr
                   key={index}
                   className={`${

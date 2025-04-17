@@ -1,3 +1,4 @@
+//quiz-certification-frontend/src/App.jsx
 import React from 'react';
 import Navbar from './components/Navbar';
 import Home from './pages/Home';
@@ -5,7 +6,7 @@ import Login from './pages/Login';
 import Register from './pages/Register';
 import Dashboard from './pages/Dashboard';
 import Categories from './pages/Categories';
-import QuizPage from './pages/Quizpage';
+import QuizPage from './pages/QuizPage';
 import Leaderboard from './pages/Leaderboard';
 import QuizResult from './pages/QuizResult';
 import Profile from './pages/Profile';

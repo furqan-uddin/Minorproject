@@ -1,8 +1,14 @@
+//quiz-certification-frontend/src/pages/Register.jsx
 import React, { useState } from "react";
 import { toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import API from "../api";
+
+
 
 const Register = () => {
+  const { register } = useAuth();
   const navigate = useNavigate(); // ✅ This was missing!
 
   const [formData, setFormData] = useState({
@@ -15,17 +21,27 @@ const Register = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!formData.name || !formData.email || !formData.password) {
       toast.warning("All fields are required");
-    } else {
-      toast.success("Registered successfully!");
+      return;
+    }
+    // } else {
+    //   toast.success("Registered successfully!");
 
-      setTimeout(() => {
-        navigate("/login"); // ✅ Now this will work
-      }, 1000);
+    //   setTimeout(() => {
+    //     navigate("/login"); // ✅ Now this will work
+    //   }, 1000);
+    // }
+    try {
+      await register(formData);
+      toast.success('Registered successfully!');
+      navigate('/');
+    } catch (err) {
+      console.log("REGISTER ERROR:", err.response);
+      toast.error(err.response?.data?.message || 'Registration failed');
     }
 
     // Later: Send formData to backend API for registration

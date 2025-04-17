@@ -1,67 +1,8 @@
+//quiz-certification-frontend/src/pages/QuizPage.jsx
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-
-const sampleQuestions = {
-  tech: [
-    {
-      question: "What does HTML stand for?",
-      options: ["Hyper Text Markup Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language", "Hyper Trainer Marking Language"],
-      answer: "Hyper Text Markup Language",
-    },
-    {
-      question: "Which language is used for styling web pages?",
-      options: ["HTML", "JQuery", "CSS", "XML"],
-      answer: "CSS",
-    },
-  ],
-  aptitude: [
-    {
-      question: "What is the next number in the sequence: 2, 4, 8, 16?",
-      options: ["18", "20", "32", "24"],
-      answer: "32",
-    },
-    {
-      question: "If A = 1, B = 2, ..., Z = 26, what is the value of DOG?",
-      options: ["26", "19", "27", "48"],
-      answer: "26",
-    },
-  ],
-  fundamentals: [
-    {
-      question: "Which data structure uses FIFO order?",
-      options: ["Stack", "Queue", "Tree", "Graph"],
-      answer: "Queue",
-    },
-    {
-      question: "What is the time complexity of binary search?",
-      options: ["O(n)", "O(log n)", "O(n log n)", "O(1)"],
-      answer: "O(log n)",
-    },
-  ],
-  interview: [
-    {
-      question: "What is a closure in JavaScript?",
-      options: [
-        "A function inside a loop",
-        "A function having access to variables from its outer scope",
-        "A variable defined in a function",
-        "A type of event listener"
-      ],
-      answer: "A function having access to variables from its outer scope",
-    },
-    {
-      question: "What does SOLID stand for in OOP?",
-      options: [
-        "Single Responsibility, Open/Closed, Liskov, Interface Segregation, Dependency Inversion",
-        "Simple Object Layout In Design",
-        "Systematic Object-Level Interface Design",
-        "None of the above"
-      ],
-      answer: "Single Responsibility, Open/Closed, Liskov, Interface Segregation, Dependency Inversion",
-    },
-  ],
-};
+import API from "../api";
 
 const QuizPage = () => {
   const { categoryId } = useParams();
@@ -73,10 +14,51 @@ const QuizPage = () => {
   const [score, setScore] = useState(0);
   const [completed, setCompleted] = useState(false);
 
+  // useEffect(() => {
+  //   const loadedQuestions = sampleQuestions[categoryId] || [];
+  //   setQuestions(loadedQuestions);
+  // }, [categoryId]);
   useEffect(() => {
-    const loadedQuestions = sampleQuestions[categoryId] || [];
-    setQuestions(loadedQuestions);
+    const fetchQuestions = async () => {
+      try {
+        const { data } = await API.get(`/quizzes/${categoryId}`);
+        console.log("Fetched Questions:", data); // 🔍 See what you get
+        setQuestions(data);
+      } catch (err) {
+        console.log('Failed to load questions', err);
+      }
+    };
+  
+    fetchQuestions();
   }, [categoryId]);
+  
+
+  useEffect(() => {
+    if (completed) {
+      const submitResult = async () => {
+        try {
+          await API.post('/results', {
+            category: categoryId,
+            score,
+            total: questions.length,
+          });
+        } catch (err) {
+          console.error('Error saving quiz result:', err);
+        }
+      };
+  
+      submitResult();
+  
+      navigate("/quiz-result", {
+        state: {
+          totalQuestions: questions.length,
+          correctAnswers: score,
+          category: categoryId,
+        },
+      });
+    }
+  }, [completed]);
+  
 
   useEffect(() => {
     if (completed) {
