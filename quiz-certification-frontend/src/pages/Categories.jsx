@@ -1,17 +1,23 @@
-// export default Categories;
-
+// quiz-certification-frontend/src/pages/Categories.jsx
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import API from "../api";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
+  const [difficulties, setDifficulties] = useState({});
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategories = async () => {
       try {
         const { data } = await API.get('/quizzes');
         setCategories(data);
+
+        // default all to 'medium'
+        const defaultDiffs = {};
+        data.forEach(cat => defaultDiffs[cat.category] = "medium");
+        setDifficulties(defaultDiffs);
       } catch (err) {
         console.error('Failed to load categories', err);
       }
@@ -19,6 +25,15 @@ const Categories = () => {
 
     fetchCategories();
   }, []);
+
+  const handleStartQuiz = (categoryId) => {
+    const diff = difficulties[categoryId] || "medium";
+    navigate(`/quizzes/${categoryId}?difficulty=${diff}`);
+  };
+
+  const handleDifficultyChange = (categoryId, value) => {
+    setDifficulties((prev) => ({ ...prev, [categoryId]: value }));
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 py-12 px-4">
@@ -35,11 +50,25 @@ const Categories = () => {
               {category.category}
             </h3>
             <p className="text-gray-700 mb-4">{category.description}</p>
-            <Link to={`/quizzes/${category.category}`}>
-              <button className="bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition">
-                Start Quiz
-              </button>
-            </Link>
+
+            <select
+              value={difficulties[category.category] || "medium"}
+              onChange={(e) =>
+                handleDifficultyChange(category.category, e.target.value)
+              }
+              className="border border-gray-300 rounded px-2 py-1 mb-4 w-full"
+            >
+              <option value="easy">Easy</option>
+              <option value="medium">Medium</option>
+              <option value="hard">Hard</option>
+            </select>
+
+            <button
+              onClick={() => handleStartQuiz(category.category)}
+              className="w-full bg-indigo-600 text-white px-4 py-2 rounded-full hover:bg-indigo-700 transition"
+            >
+              Start Quiz
+            </button>
           </div>
         ))}
       </div>

@@ -9,7 +9,7 @@ const Profile = () => {
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
       <div className="bg-white p-8 rounded-xl shadow-md w-full max-w-md text-center">
         <img
-          src={user?.photoURL || "https://via.placeholder.com/100"}
+          src={user?.photoURL}
           alt="Profile"
           className="w-24 h-24 rounded-full mx-auto mb-4"
         />

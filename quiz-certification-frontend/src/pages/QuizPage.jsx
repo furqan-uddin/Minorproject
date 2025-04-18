@@ -1,11 +1,14 @@
-//quiz-certification-frontend/src/pages/QuizPage.jsx
+// export default QuizPage;
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import API from "../api";
 
 const QuizPage = () => {
   const { categoryId } = useParams();
+  const { search } = useLocation();
+  const queryParams = new URLSearchParams(search);
+  const difficulty = queryParams.get('difficulty');
   const navigate = useNavigate();
 
   const [questions, setQuestions] = useState([]);
@@ -13,25 +16,28 @@ const QuizPage = () => {
   const [selectedOption, setSelectedOption] = useState("");
   const [score, setScore] = useState(0);
   const [completed, setCompleted] = useState(false);
+  const [userAnswers, setUserAnswers] = useState([]);
 
-  // useEffect(() => {
-  //   const loadedQuestions = sampleQuestions[categoryId] || [];
-  //   setQuestions(loadedQuestions);
-  // }, [categoryId]);
+  useEffect(() => {
+    setCurrentQ(0);
+    setScore(0);
+    setCompleted(false);
+    setUserAnswers([]);
+    setSelectedOption("");
+  }, [categoryId, difficulty]);
+
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
-        const { data } = await API.get(`/quizzes/${categoryId}`);
-        console.log("Fetched Questions:", data); // 🔍 See what you get
+        const { data } = await API.get(`/quizzes/${categoryId}?difficulty=${difficulty}`);
         setQuestions(data);
       } catch (err) {
-        console.log('Failed to load questions', err);
+        console.error('Failed to load questions', err);
       }
     };
-  
+
     fetchQuestions();
-  }, [categoryId]);
-  
+  }, [categoryId, difficulty]);
 
   useEffect(() => {
     if (completed) {
@@ -46,31 +52,20 @@ const QuizPage = () => {
           console.error('Error saving quiz result:', err);
         }
       };
-  
-      submitResult();
-  
-      navigate("/quiz-result", {
-        state: {
-          totalQuestions: questions.length,
-          correctAnswers: score,
-          category: categoryId,
-        },
-      });
-    }
-  }, [completed]);
-  
 
-  useEffect(() => {
-    if (completed) {
+      submitResult();
+
       navigate("/quiz-result", {
         state: {
           totalQuestions: questions.length,
           correctAnswers: score,
           category: categoryId,
+          answers: userAnswers,
+          questions: questions
         },
       });
     }
-  }, [completed, navigate, questions.length, score, categoryId]);
+  }, [completed, score, categoryId, navigate, questions, userAnswers]);
 
   const handleSubmit = () => {
     if (!selectedOption) {
@@ -78,12 +73,15 @@ const QuizPage = () => {
       return;
     }
 
-    if (selectedOption === questions[currentQ].answer) {
+    const isCorrect = selectedOption === questions[currentQ].answer;
+    if (isCorrect) {
       setScore((prev) => prev + 1);
       toast.success("Correct!");
     } else {
       toast.error("Oops! Wrong answer.");
     }
+
+    setUserAnswers((prev) => [...prev, selectedOption]);
 
     setTimeout(() => {
       if (currentQ < questions.length - 1) {
@@ -92,13 +90,21 @@ const QuizPage = () => {
       } else {
         setCompleted(true);
       }
-    }, 500); // delay for toast feedback
+    }, 500);
   };
+
+  if (!difficulty) {
+    return (
+      <div className="text-center mt-20 text-xl text-red-600">
+        Please select a difficulty level.
+      </div>
+    );
+  }
 
   if (!questions.length) {
     return (
       <div className="text-center mt-20 text-xl text-gray-600">
-        No quiz found for this category. Coming soon!
+        No quiz found for this category and difficulty. Try another!
       </div>
     );
   }
