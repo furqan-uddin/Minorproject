@@ -47,6 +47,7 @@ const QuizPage = () => {
             category: categoryId,
             score,
             total: questions.length,
+            difficulty,
           });
         } catch (err) {
           console.error('Error saving quiz result:', err);
