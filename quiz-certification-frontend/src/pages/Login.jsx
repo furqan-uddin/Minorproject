@@ -15,19 +15,28 @@ const Login = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     if (formData.email === "" || formData.password === "") {
-      console.log("LOGIN ERROR:", err.response);
       toast.error("Please fill in all fields");
       return;
     }
-
-    // Simulate login (later replace with real API call)
-    // login({ email: formData.email }); // store dummy user in context
-    await login(formData);
-    toast.success("Logged in successfully!");
-    navigate("/");
+  
+    try {
+      await login(formData);
+      toast.success("Logged in successfully!");
+      navigate("/");
+    } catch (err) {
+      console.error("LOGIN ERROR:", err);
+      const message = err?.response?.data?.message || "Login failed. Please try again.";
+      toast.error(message);
+  
+      // Redirect to register if error is user not found
+      if (message.toLowerCase().includes("user not found")) {
+        setTimeout(() => navigate("/register"), 2000); // Delay to let user see the message
+      }
+    }
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">
@@ -58,12 +67,27 @@ const Login = () => {
               placeholder="Enter your password"
             />
           </div>
+          <p
+            onClick={() => navigate("/forgot-password")}
+            className="text-sm text-indigo-600 hover:underline cursor-pointer text-right mt-1"
+          >
+            Forgot password?
+          </p>
           <button
             type="submit"
             className="w-full bg-indigo-600 text-white py-2 rounded-lg hover:bg-indigo-700 transition"
           >
             Login
           </button>
+          <p className="mt-4 text-center text-sm text-gray-600">
+            Don’t have an account?{" "}
+            <span
+              onClick={() => navigate("/register")}
+              className="text-indigo-600 hover:underline cursor-pointer font-medium"
+            >
+              Register here
+            </span>
+          </p>
         </form>
       </div>
     </div>

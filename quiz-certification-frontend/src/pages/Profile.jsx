@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import API from '../api';
+import Spinner from '../components/Spinner.jsx';
 
 const Profile = () => {
   const { user, setUser } = useAuth();
@@ -64,7 +65,8 @@ const Profile = () => {
     }
   };
 
-  if (!userInfo) return <p>Loading...</p>;
+  // if (!userInfo) return <p>Loading...</p>;
+  if (!userInfo) return <Spinner />;
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center px-4">

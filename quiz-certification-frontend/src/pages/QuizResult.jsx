@@ -22,9 +22,40 @@ const QuizResult = () => {
   return (
     <div className="min-h-screen bg-gray-100 p-6">
       <div className="bg-white p-6 rounded-lg shadow-lg max-w-3xl mx-auto">
-        <h2 className="text-3xl font-bold mb-2 text-indigo-700 text-center">Quiz Result</h2>
-        <p className="text-center text-lg mb-6">Category: <strong className="text-purple-600">{category}</strong></p>
-        <p className="text-center mb-2">Score: <strong>{correctAnswers}/{totalQuestions}</strong> ({scorePercent}%)</p>
+        <h2 className="text-3xl font-bold mb-4 text-indigo-700 text-center">Quiz Result</h2>
+
+        {/* Circular Score Progress */}
+        <div className="flex justify-center mb-6">
+          <div className="relative w-32 h-32">
+            <svg className="transform -rotate-90" viewBox="0 0 100 100">
+              <circle
+                cx="50"
+                cy="50"
+                r="45"
+                className="stroke-current text-gray-200"
+                strokeWidth="10"
+                fill="none"
+              />
+              <circle
+                cx="50"
+                cy="50"
+                r="45"
+                className={`stroke-current ${isPassed ? "text-green-500" : "text-red-500"}`}
+                strokeWidth="10"
+                strokeDasharray="282.6"
+                strokeDashoffset={`${282.6 - (282.6 * scorePercent) / 100}`}
+                strokeLinecap="round"
+                fill="none"
+              />
+            </svg>
+            <div className="absolute inset-0 flex items-center justify-center text-xl font-bold text-indigo-800">
+              {scorePercent}%
+            </div>
+          </div>
+        </div>
+
+        <p className="text-center text-lg mb-2">Category: <strong className="text-purple-600">{category}</strong></p>
+        <p className="text-center mb-2">Score: <strong>{correctAnswers}/{totalQuestions}</strong></p>
 
         {isPassed ? (
           <p className="text-green-600 text-center font-bold mb-6">🎉 Congratulations! You passed!</p>
@@ -74,3 +105,4 @@ const QuizResult = () => {
 };
 
 export default QuizResult;
+

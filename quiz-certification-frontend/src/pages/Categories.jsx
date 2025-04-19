@@ -2,10 +2,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api";
+import Spinner from "../components/spinner";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);
   const [difficulties, setDifficulties] = useState({});
+  const [loading,setLoading]=useState(true)
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,6 +22,8 @@ const Categories = () => {
         setDifficulties(defaultDiffs);
       } catch (err) {
         console.error('Failed to load categories', err);
+      }finally {
+        setLoading(false); // End loading regardless of success or failure
       }
     };
 
@@ -40,6 +44,9 @@ const Categories = () => {
       <h2 className="text-3xl font-bold text-indigo-700 text-center mb-10">
         Choose a Quiz Category
       </h2>
+    {loading ? (
+      <Spinner />
+    ):(
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
         {categories.map((category) => (
           <div
@@ -72,6 +79,7 @@ const Categories = () => {
           </div>
         ))}
       </div>
+    )}
     </div>
   );
 };

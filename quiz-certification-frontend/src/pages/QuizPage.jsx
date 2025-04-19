@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import API from "../api";
+import Spinner from "../components/Spinner"; // Make sure this exists
 
 const QuizPage = () => {
   const { categoryId } = useParams();
@@ -17,6 +18,7 @@ const QuizPage = () => {
   const [score, setScore] = useState(0);
   const [completed, setCompleted] = useState(false);
   const [userAnswers, setUserAnswers] = useState([]);
+  const [loading, setLoading] = useState(true); // Spinner logic
 
   useEffect(() => {
     setCurrentQ(0);
@@ -28,11 +30,14 @@ const QuizPage = () => {
 
   useEffect(() => {
     const fetchQuestions = async () => {
+      setLoading(true);
       try {
         const { data } = await API.get(`/quizzes/${categoryId}?difficulty=${difficulty}`);
         setQuestions(data);
       } catch (err) {
         console.error('Failed to load questions', err);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -102,6 +107,14 @@ const QuizPage = () => {
     );
   }
 
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <Spinner />
+      </div>
+    );
+  }
+
   if (!questions.length) {
     return (
       <div className="text-center mt-20 text-xl text-gray-600">
@@ -113,9 +126,26 @@ const QuizPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center px-4 py-12">
       <div className="bg-white p-8 rounded-2xl shadow-md w-full max-w-2xl">
-        <h2 className="text-2xl font-bold text-indigo-700 mb-4">
-          {`Question ${currentQ + 1} of ${questions.length}`}
-        </h2>
+        {/* Progress Bar */}
+        <div className="mb-6">
+          <div className="flex justify-between mb-1">
+            <span className="text-sm font-medium text-indigo-700">
+              Question {currentQ + 1} of {questions.length}
+            </span>
+            <span className="text-sm text-gray-600">
+              {Math.round(((currentQ) / questions.length) * 100)}%
+            </span>
+          </div>
+          <div className="w-full bg-gray-200 rounded-full h-2.5">
+            <div
+              className="bg-indigo-600 h-2.5 rounded-full transition-all duration-300"
+              style={{
+                width: `${((currentQ) / questions.length) * 100}%`,
+              }}
+            ></div>
+          </div>
+        </div>
+
         <p className="text-lg text-gray-800 mb-6">{questions[currentQ].question}</p>
 
         <div className="space-y-3">

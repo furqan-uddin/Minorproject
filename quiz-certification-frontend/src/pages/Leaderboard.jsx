@@ -1,9 +1,10 @@
 // //quiz-certification-frontend/src/pages/Leaderboard.jsx
 import React, { useEffect, useState } from "react";
 import API from "../api";
-
+import Spinner from "../components/spinner";
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
+  const[loading,setLoading]=useState(true);
 
   useEffect(() => {
     const fetchLeaderboard = async () => {
@@ -12,6 +13,8 @@ const Leaderboard = () => {
         setLeaderboard(data);
       } catch (err) {
         console.error('Error loading leaderboard:', err);
+      }finally {
+        setLoading(false); // End loading regardless of success or failure
       }
     };
 
@@ -20,11 +23,13 @@ const Leaderboard = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-purple-100 to-indigo-100 py-10 px-4">
+    {loading ? (
+      <Spinner />
+    ):(  
       <div className="max-w-4xl mx-auto bg-white rounded-2xl shadow-lg p-8">
         <h2 className="text-3xl font-bold text-center text-indigo-700 mb-8">
           🏆 Leaderboard
         </h2>
-
         <div className="overflow-x-auto">
           <table className="w-full border-collapse">
             <thead>
@@ -59,6 +64,7 @@ const Leaderboard = () => {
           </table>
         </div>
       </div>
+    )}
     </div>
   );
 };
