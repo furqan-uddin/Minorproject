@@ -1,12 +1,17 @@
 // quiz-certification-frontend/src/pages/Dashboard.jsx
 import React, { useEffect, useState } from "react";
 import { useAuth } from "../context/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import API from "../api";
+import Spinner from "../components/Spinner";
+import { Button } from "../components/ui/button";
 
 const Dashboard = () => {
   const [history, setHistory] = useState([]);
+  const [loading, setLoading] = useState(true);
   const { user } = useAuth();
+  const navigate = useNavigate();
+
   useEffect(() => {
     const fetchHistory = async () => {
       try {
@@ -14,11 +19,24 @@ const Dashboard = () => {
         setHistory(data);
       } catch (err) {
         console.error("Failed to load quiz history", err);
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchHistory();
   }, []);
+
+  const handleDownload = (entry) => {
+    navigate("/certificate", {
+      state: {
+        name: user?.name || "User",
+        category: entry.category,
+        score: `${entry.score}/${entry.total}`,
+        date: new Date(entry.timestamp).toLocaleDateString(),
+      },
+    });
+  };
 
   const totalQuizzes = history.length;
   const totalCertificates = history.filter((q) => (q.score / q.total) * 100 >= 50).length;
@@ -48,9 +66,11 @@ const Dashboard = () => {
             </Link>
           </div>
         </div>
-        {/* Quiz History */}
+
         <h3 className="text-2xl font-bold text-indigo-700 mb-4">Quiz History</h3>
-        {history.length === 0 ? (
+        {loading ? (
+          <Spinner />
+        ) : history.length === 0 ? (
           <p className="text-gray-600">No quiz history yet.</p>
         ) : (
           <div className="overflow-x-auto">
@@ -62,18 +82,32 @@ const Dashboard = () => {
                   <th className="p-3">Score</th>
                   <th className="p-3">Total</th>
                   <th className="p-3">Date</th>
+                  <th className="p-3">Actions</th>
                 </tr>
               </thead>
               <tbody>
-                {history.map((entry, idx) => (
-                  <tr key={idx} className="border-b hover:bg-indigo-50">
-                    <td className="p-3">{entry.category}</td>
-                    <td className="p-3 capitalize">{entry.difficulty || 'N/A'}</td>
-                    <td className="p-3">{entry.score}</td>
-                    <td className="p-3">{entry.total}</td>
-                    <td className="p-3">{new Date(entry.timestamp).toLocaleDateString()}</td>
-                  </tr>
-                ))}
+                {history.map((entry, idx) => {
+                  const scorePercent = (entry.score / entry.total) * 100;
+                  const isPassed = scorePercent >= 50;
+
+                  return (
+                    <tr key={idx} className="border-b hover:bg-indigo-50">
+                      <td className="p-3">{entry.category}</td>
+                      <td className="p-3 capitalize">{entry.difficulty || 'N/A'}</td>
+                      <td className="p-3">{entry.score}</td>
+                      <td className="p-3">{entry.total}</td>
+                      <td className="p-3">{new Date(entry.timestamp).toLocaleDateString()}</td>
+                      <td className="p-3">
+                        {isPassed ? (
+                          <Button size="sm" onClick={() => handleDownload(entry)}>
+                            Certificate
+                          </Button>
+                        ): <p className="text-red-500 text-lg">Failed !</p>
+                        }
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

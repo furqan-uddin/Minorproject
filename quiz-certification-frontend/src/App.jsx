@@ -12,6 +12,7 @@ import QuizResult from './pages/QuizResult';
 import Profile from './pages/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
 import { Routes, Route } from 'react-router-dom';
+import CertificatePreview from './pages/CertificatePreview';
 
 const App = () => {
   return (
@@ -63,7 +64,14 @@ const App = () => {
             </ProtectedRoute>
           } 
         />
-
+        <Route 
+          path="/certificate" 
+          element={
+            <ProtectedRoute>
+              <CertificatePreview />
+            </ProtectedRoute>
+          }
+        />
         {/* Leaderboard is public */}
         <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>

@@ -2,10 +2,12 @@
 import React from "react";
 import { useLocation, useNavigate, Navigate } from "react-router-dom";
 import { Button } from "../components/ui/button";
+import { useAuth } from "../context/AuthContext";
 
 const QuizResult = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { user }  = useAuth();
   const { totalQuestions, correctAnswers, category, answers, questions } = location.state || {};
 
   if (!location.state || totalQuestions === undefined || correctAnswers === undefined) {
@@ -16,7 +18,14 @@ const QuizResult = () => {
   const isPassed = scorePercent >= 50;
 
   const handleDownloadCertificate = () => {
-    alert("🎉 Certificate Download feature coming soon!");
+    navigate("/certificate", {
+      state: {
+        name: user?.name || "User",
+        category,
+        score: `${correctAnswers}/${totalQuestions}`,
+        date: new Date().toLocaleDateString(),
+      }
+    })
   };
 
   return (
@@ -93,7 +102,7 @@ const QuizResult = () => {
 
         <div className="mt-6 text-center">
           {isPassed && (
-            <Button onClick={handleDownloadCertificate}>Download Certificate</Button>
+            <Button onClick={handleDownloadCertificate}>Get Certificate</Button>
           )}
           <Button variant="outline" className="mt-4 ml-2" onClick={() => navigate("/dashboard")}>
             Back to Dashboard
