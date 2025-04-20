@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import API from "../api";
-import Spinner from "../components/spinner";
+import Spinner from "../components/Spinner";
 
 const Categories = () => {
   const [categories, setCategories] = useState([]);

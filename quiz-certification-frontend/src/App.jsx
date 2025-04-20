@@ -14,6 +14,11 @@ import ProtectedRoute from './components/ProtectedRoute';
 import { Routes, Route } from 'react-router-dom';
 import CertificatePreview from './pages/CertificatePreview';
 
+import AdminLayout from './layouts/AdminLayout'; // ✅ Add this
+import AdminDashboard from './pages/admin/AdminDashboard';
+import AdminUsers from './pages/admin/AdminUsers';
+import AdminQuizzes from './pages/admin/AdminQuizzes';
+import AdminResults from './pages/admin/AdminResults';
 const App = () => {
   return (
     <>
@@ -74,6 +79,21 @@ const App = () => {
         />
         {/* Leaderboard is public */}
         <Route path="/leaderboard" element={<Leaderboard />} />
+
+        // Inside your Routes
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute adminOnly>
+              <AdminLayout />
+            </ProtectedRoute>
+          }
+        >
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="users" element={<AdminUsers />} />
+          <Route path="questions" element={<AdminQuizzes />} />
+          <Route path="results" element={<AdminResults />} />
+        </Route>
       </Routes>
     </>
   );

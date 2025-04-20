@@ -1,7 +1,7 @@
 // //quiz-certification-frontend/src/pages/Leaderboard.jsx
 import React, { useEffect, useState } from "react";
 import API from "../api";
-import Spinner from "../components/spinner";
+import Spinner from "../components/Spinner";
 const Leaderboard = () => {
   const [leaderboard, setLeaderboard] = useState([]);
   const[loading,setLoading]=useState(true);
