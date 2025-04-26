@@ -23,7 +23,6 @@ const Dashboard = () => {
         setLoading(false);
       }
     };
-
     fetchHistory();
   }, []);
 
@@ -43,38 +42,34 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 py-10 px-4">
-      <div className="max-w-5xl mx-auto bg-white p-8 rounded-2xl shadow-md">
-        <h2 className="text-3xl font-bold text-indigo-700 mb-6 text-center">
-          Welcome, {user?.name || 'User'} 👋🎯
-        </h2>
+      <div className="max-w-5xl mx-auto bg-white p-6 md:p-8 rounded-2xl shadow-lg">
+        <h2 className="text-3xl font-bold text-center text-indigo-700 mb-8">Welcome, {user?.name || 'User'} 👋🎯</h2>
 
-        <div className="grid md:grid-cols-2 gap-6 mb-8">
-          <div className="bg-indigo-100 p-6 rounded-xl shadow">
-            <h4 className="text-xl font-semibold text-indigo-700 mb-1">Quizzes Taken</h4>
-            <p className="text-gray-700">{totalQuizzes}</p>
+        <div className="grid md:grid-cols-2 gap-6 mb-10">
+          <div className="bg-indigo-100 p-6 rounded-xl text-center">
+            <h4 className="text-lg font-semibold text-indigo-700">Quizzes Taken</h4>
+            <p className="text-gray-700 text-2xl">{totalQuizzes}</p>
           </div>
-          <div className="bg-indigo-100 p-6 rounded-xl shadow">
-            <h4 className="text-xl font-semibold text-indigo-700 mb-1">Certificates Earned</h4>
-            <p className="text-gray-700">{totalCertificates}</p>
+          <div className="bg-indigo-100 p-6 rounded-xl text-center">
+            <h4 className="text-lg font-semibold text-indigo-700">Certificates Earned</h4>
+            <p className="text-gray-700 text-2xl">{totalCertificates}</p>
           </div>
-          <div className="bg-indigo-100 p-6 rounded-xl shadow flex items-center justify-center col-span-2">
-            <Link
-              to="/quizzes"
-              className="bg-purple-600 text-white px-6 py-3 rounded-full text-lg hover:bg-purple-700 transition"
-            >
-              Explore Categories
+          <div className="col-span-full text-center">
+            <Link to="/quizzes">
+              <Button size="lg" className="bg-purple-600 hover:bg-purple-700 mt-4">Explore Categories</Button>
             </Link>
           </div>
         </div>
 
         <h3 className="text-2xl font-bold text-indigo-700 mb-4">Quiz History</h3>
+
         {loading ? (
           <Spinner />
         ) : history.length === 0 ? (
           <p className="text-gray-600">No quiz history yet.</p>
         ) : (
           <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse">
+            <table className="w-full text-sm md:text-base">
               <thead>
                 <tr className="bg-indigo-100">
                   <th className="p-3">Category</th>
@@ -99,11 +94,10 @@ const Dashboard = () => {
                       <td className="p-3">{new Date(entry.timestamp).toLocaleDateString()}</td>
                       <td className="p-3">
                         {isPassed ? (
-                          <Button size="sm" onClick={() => handleDownload(entry)}>
-                            Certificate
-                          </Button>
-                        ): <p className="text-red-500 text-lg">Failed !</p>
-                        }
+                          <Button size="sm" onClick={() => handleDownload(entry)}>Certificate</Button>
+                        ) : (
+                          <span className="text-red-500 font-semibold">Failed</span>
+                        )}
                       </td>
                     </tr>
                   );
@@ -118,6 +112,7 @@ const Dashboard = () => {
 };
 
 export default Dashboard;
+
 
 
 // {/* Quiz History */}

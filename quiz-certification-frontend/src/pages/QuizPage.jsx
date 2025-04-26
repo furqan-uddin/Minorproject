@@ -1,4 +1,4 @@
-// src/pages/QuizPage.jsx
+// quiz-certification-frontend/src//pages/QuizPage.jsx
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -140,7 +140,7 @@ const QuizPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-center px-4 py-8 md:py-12">
-      <div className="bg-white p-6 md:p-8 rounded-xl shadow-md w-full max-w-2xl transition-all duration-300 ease-in-out">
+      <div className="bg-white p-6 md:p-8 rounded-xl shadow-md w-full max-w-2xl">
         {/* Progress Bar */}
         <div className="mb-6">
           <div className="flex justify-between mb-1 text-sm">
@@ -151,9 +151,9 @@ const QuizPage = () => {
               {Math.round((currentQ / questions.length) * 100)}%
             </span>
           </div>
-          <div className="w-full bg-gray-200 rounded-full h-2.5 overflow-hidden">
+          <div className="w-full bg-gray-200 rounded-full h-2.5">
             <div
-              className="bg-indigo-600 h-2.5 transition-all duration-300 ease-in-out"
+              className="bg-indigo-600 h-2.5 rounded-full transition-all duration-300"
               style={{ width: `${(currentQ / questions.length) * 100}%` }}
             ></div>
           </div>
@@ -165,7 +165,7 @@ const QuizPage = () => {
         </div>
 
         {/* Question */}
-        <p className="text-lg text-gray-800 mb-6 break-words">
+        <p className="text-lg text-gray-800 mb-6">
           {questions[currentQ].question}
         </p>
 
