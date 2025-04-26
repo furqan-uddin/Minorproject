@@ -98,7 +98,7 @@ const QuizResult = () => {
           ))}
         </div>
 
-        <div className="mt-6 text-center space-y-4">
+        <div className="mt-6 text-center flex justify-center gap-4">
           {isPassed && (
             <Button onClick={handleDownloadCertificate}>Get Certificate</Button>
           )}

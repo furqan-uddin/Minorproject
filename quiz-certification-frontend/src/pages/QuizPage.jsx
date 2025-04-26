@@ -12,7 +12,7 @@ const QuizPage = () => {
   const difficulty = queryParams.get("difficulty");
   const navigate = useNavigate();
 
-  const QUESTION_TIMER = 10;
+  const QUESTION_TIMER = 15;
 
   const [questions, setQuestions] = useState([]);
   const [currentQ, setCurrentQ] = useState(0);
