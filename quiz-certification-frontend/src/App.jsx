@@ -82,7 +82,7 @@ const App = () => {
         {/* Leaderboard is public */}
         <Route path="/leaderboard" element={<Leaderboard />} />
 
-        // Inside your Routes
+       
         <Route
           path="/admin"
           element={
