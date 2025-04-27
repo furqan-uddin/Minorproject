@@ -36,48 +36,68 @@ const Profile = () => {
   const handlePhotoChange = async (e) => {
     const file = e.target.files[0];
     if (!file) return;
-
+  
     const formData = new FormData();
     formData.append("file", file);
     formData.append("upload_preset", "quizpreset");
-
+  
     try {
       const res = await axios.post("https://api.cloudinary.com/v1_1/quizcloud/image/upload", formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-
+  
       const imageUrl = res.data.secure_url;
+  
+      // ✅ ONLY update form, not userInfo
       setForm(prev => ({ ...prev, photoURL: imageUrl }));
-      setUserInfo(prev => ({ ...prev, photoURL: imageUrl }));
+  
       toast.success("Image uploaded");
     } catch (err) {
+      console.error(err);
       toast.error("Image upload failed");
     }
   };
+  
 
   const handleSave = async () => {
     if (!window.confirm("Are you sure you want to save changes?")) return;
-
+  
     try {
-      const { data } = await API.put('/users/profile', form);
-      // const updatedUser = {
-      //   ...userInfo,
-      //   ...data,
-      //   createdAt: userInfo.createdAt
-      // };
-      // setUserInfo(updatedUser);
-      // setUser(updatedUser);
-      // setForm({ name: updatedUser.name, email: updatedUser.email, photoURL: updatedUser.photoURL });
-      setUserInfo(data);
-setUser(data);
-setForm({ name: data.name, email: data.email, photoURL: data.photoURL });
-
-      toast.success("Profile updated successfully");
-    } catch {
+      await API.put('/users/profile', form);
+  
+      // ✅ Update userInfo state (for Overview section)
+      setUserInfo(prev => ({
+        ...prev,
+        name: form.name,
+        email: form.email,
+        photoURL: form.photoURL,
+      }));
+  
+      // ✅ Update user context (for global app)
+      setUser(prev => ({
+        ...prev,
+        name: form.name,
+        email: form.email,
+        photoURL: form.photoURL,
+      }));
+  
+      // ✅ Update LocalStorage (for persistence after reload)
+      localStorage.setItem('user', JSON.stringify({
+        ...form,
+        role: user.role,
+        _id: user._id,
+        token: user.token,
+      }));
+      
+      toast.success("Profile updated successfully!");
+    } catch (err) {
+      console.error("Error during profile update:", err);
       toast.error("Failed to update profile");
     }
   };
-
+  
+    
+  
   const hasChanges =
     form.name !== userInfo?.name ||
     form.email !== userInfo?.email ||
