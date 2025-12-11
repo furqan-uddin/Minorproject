@@ -141,10 +141,12 @@ npm install
 npm run dev
 ```
 
+
 ---
 
-## 🙌 Author
+## 🧑‍💻 Author
 
 **Mohammad Furqanuddin**  
 🔗 LinkedIn: https://www.linkedin.com/in/mohammadfurqanuddin  
 📧 Email: mohammedfurqan2108@gmail.com
+
